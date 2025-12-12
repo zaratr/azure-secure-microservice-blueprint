@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "secure-blueprint-api"
+version = "0.1.0"
+description = "API service for azure secure microservice blueprint"
+authors = ["Cloud Engineer <cloud@example.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.0"
+uvicorn = {extras=["standard"], version="^0.30.0"}
+pydantic = "^2.7.0"
+sqlalchemy = "^2.0.29"
+asyncpg = "^0.29.0"
+psycopg2-binary = "^2.9.9"
+python-dotenv = "^1.0.1"
+opentelemetry-sdk = "^1.25.0"
+opentelemetry-exporter-otlp = "^1.25.0"
+opentelemetry-instrumentation-fastapi = "^0.46b0"
+opentelemetry-instrumentation-logging = "^0.46b0"
+opentelemetry-instrumentation-requests = "^0.46b0"
+opentelemetry-instrumentation-sqlalchemy = "^0.46b0"
+structlog = "^24.1.0"
+slowapi = "^0.1.9"
+azure-identity = "^1.16.0"
+azure-servicebus = "^7.12.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+pytest-asyncio = "^0.23.6"
+httpx = "^0.27.0"
+ruff = "^0.4.4"
+black = "^24.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I", "B", "C90"]
+

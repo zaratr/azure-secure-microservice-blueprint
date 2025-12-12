@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "secure-blueprint-worker"
+version = "0.1.0"
+description = "Worker service for azure secure microservice blueprint"
+authors = ["Cloud Engineer <cloud@example.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.7.0"
+sqlalchemy = "^2.0.29"
+asyncpg = "^0.29.0"
+psycopg2-binary = "^2.9.9"
+python-dotenv = "^1.0.1"
+opentelemetry-sdk = "^1.25.0"
+opentelemetry-exporter-otlp = "^1.25.0"
+opentelemetry-instrumentation-logging = "^0.46b0"
+opentelemetry-instrumentation-requests = "^0.46b0"
+opentelemetry-instrumentation-sqlalchemy = "^0.46b0"
+structlog = "^24.1.0"
+azure-identity = "^1.16.0"
+azure-servicebus = "^7.12.1"
+azure-storage-blob = "^12.19.0"
+tenacity = "^8.2.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+pytest-asyncio = "^0.23.6"
+ruff = "^0.4.4"
+black = "^24.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I", "B", "C90"]
+

@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Poetry
+        run: pip install poetry
+      - name: Install API deps
+        run: |
+          cd services/api
+          poetry install
+      - name: Install Worker deps
+        run: |
+          cd services/worker
+          poetry install
+      - name: Lint API
+        run: |
+          cd services/api
+          poetry run ruff check .
+          poetry run black --check .
+      - name: Lint Worker
+        run: |
+          cd services/worker
+          poetry run ruff check .
+          poetry run black --check .
+      - name: Test API
+        run: |
+          cd services/api
+          poetry run pytest
+      - name: Test Worker
+        run: |
+          cd services/worker
+          poetry run pytest
+      - name: Build Docker images
+        run: |
+          docker build -t api:ci services/api
+          docker build -t worker:ci services/worker

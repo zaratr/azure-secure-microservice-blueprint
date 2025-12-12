@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app
+    ports:
+      - "5432:5432"
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0"
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+    volumes:
+      - ./data/azurite:/data
+  api:
+    build: ./services/api
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/app
+      STORAGE_ACCOUNT_URL: http://azurite:10000/devstoreaccount1
+    depends_on:
+      - db
+      - azurite
+    ports:
+      - "8000:8000"
+  worker:
+    build: ./services/worker
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/app
+      STORAGE_ACCOUNT_URL: http://azurite:10000/devstoreaccount1
+    depends_on:
+      - db
+      - azurite
